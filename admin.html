@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Beheer VIP-gok · SPORT NIGHT</title>
+<link rel="icon" href="assets/logo-giants-sm.png">
+<style>
+:root{--blue:#3643BA;--red:#D71920;--ink:#101828;--bg:#EEF0FA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px}
+header{background:var(--blue);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 18px;border-bottom:6px solid var(--red)}
+header img{height:64px}
+header h1{font-size:26px;margin:0;font-weight:900}
+main{max-width:1100px;margin:0 auto;padding:18px}
+.card{background:#fff;border-radius:18px;box-shadow:0 6px 22px rgba(54,67,186,.12);padding:20px;margin-bottom:16px}
+.counts{display:flex;gap:16px}
+.counts div{flex:1;border-radius:18px;color:#fff;text-align:center;padding:18px}
+.counts .b{background:var(--blue)}.counts .r{background:var(--red)}
+.counts b{display:block;font-size:110px;line-height:1;font-weight:900}
+.counts span{font-size:26px;font-weight:800}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button{border:0;border-radius:14px;padding:16px 22px;font-size:22px;font-weight:800;cursor:pointer;background:#E4E7EC;color:var(--ink)}
+button.blue{background:var(--blue);color:#fff}button.red{background:var(--red);color:#fff}button.green{background:#12B76A;color:#fff}
+button.sel{outline:6px solid #FDB022;outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+.state{font-size:26px;font-weight:900}
+.open{color:#039855}.closed{color:var(--red)}
+#win{text-align:center;border-radius:22px;padding:30px 16px;color:#fff;background:var(--blue)}
+#win .lab{font-size:30px;font-weight:800}
+#win .nm{font-size:clamp(48px,8vw,96px);font-weight:900;line-height:1.05;margin:10px 0}
+#win .ph{font-size:clamp(40px,6vw,72px);font-weight:900;letter-spacing:2px}
+#win .meta{font-size:20px;opacity:.9;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:18px}td,th{text-align:left;padding:6px 8px;border-bottom:1px solid #EAECF0}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.hide{display:none!important}
+.muted{color:#475467;font-size:17px}
+input{font-size:18px;padding:12px;width:100%;border:2px solid #98A2C9;border-radius:10px}
+#err{color:var(--red);font-weight:800}
+</style>
+</head>
+<body>
+<header><img src="assets/logo-dark-web.png" alt=""><h1>Beheer VIP-gok · welke tent is het snelst opgevouwen?</h1></header>
+<main>
+<section id="login" class="card hide">
+  <p><b>Beheerderssleutel nodig.</b> Open de beheerlink die je kreeg, of plak de sleutel hieronder.</p>
+  <input id="key" type="password" autocomplete="off" placeholder="sleutel"><br><br>
+  <button class="blue" id="keyBtn">Inloggen</button>
+</section>
+<p id="err"></p>
+<div id="app" class="hide">
+  <section class="card">
+    <div class="counts"><div class="b"><b id="nb">0</b><span>BLAUW · linkertent</span></div><div class="r"><b id="nr">0</b><span>ROOD · rechtertent</span></div></div>
+    <p class="muted" style="text-align:center;margin:12px 0 0">Totaal <b id="nt">0</b> gokken · live bijgewerkt <span id="upd"></span></p>
+  </section>
+  <section class="card">
+    <div class="row"><span>Stemming:</span><span id="st" class="state"></span>
+      <button id="closeBtn" class="red">Stemming sluiten</button><button id="openBtn" class="green">Stemming (her)openen</button></div>
+  </section>
+  <section class="card">
+    <p style="margin-top:0"><b>Welke tent won?</b></p>
+    <div class="row"><button id="wb" class="blue">BLAUW (linkertent) won</button><button id="wr" class="red">ROOD (rechtertent) won</button></div>
+    <br><div class="row"><button id="drawBtn" class="green" disabled>🎲 Trek de winnaar</button><button id="redrawBtn" disabled>Opnieuw trekken (winnaar niet bereikbaar)</button></div>
+    <p class="muted" id="poolInfo"></p>
+  </section>
+  <section id="win" class="hide"><div class="lab">🍾 De winnaar van de fles champagne is</div><div class="nm" id="wn"></div><div class="ph" id="wp"></div><div class="meta" id="wm"></div></section>
+  <br>
+  <section class="card">
+    <details><summary><b>Alle gokken bekijken</b></summary><table><thead><tr><th>Tijd</th><th>Naam</th><th>GSM</th><th>Kleur</th></tr></thead><tbody id="list"></tbody></table></details>
+    <br><div class="row"><button id="csvBtn">Lijst downloaden (CSV)</button><button id="wipeBtn">Alle gegevens wissen (na de wedstrijd)</button></div>
+  </section>
+</div>
+</main>
+<script src="vip.js?v=1"></script>
+<script>
+(function(){
+var API_KEY="AIzaSyAoVJMKiuVDSqqyMW4vE6dbbcZ5SW5IUSE", ADMINS=["7RtLUCunESf9F8Kwj4Fs3XvVKXg2","0m5l7HFk67WrnLM0CvItYVTBRrm2"];
+var EMU=/[?&]emu=1/.test(location.search), P=VipGok.P, LS="vipgok1711_admin_k";
+var DB=EMU?"http://127.0.0.1:9000":"https://giants-veiling-default-rtdb.europe-west1.firebasedatabase.app", NS=EMU?"ns=giants-veiling-default-rtdb&":"";
+var $=function(i){return document.getElementById(i)}, tok=null, tokExp=0, data={}, winColor=null;
+var m=location.hash.match(/k=([^&]+)/);
+if(m){try{localStorage.setItem(LS,decodeURIComponent(m[1]))}catch(e){}history.replaceState(null,"",location.pathname+location.search)}
+function key(){try{return localStorage.getItem(LS)}catch(e){return null}}
+function idToken(){
+  if(tok&&Date.now()<tokExp)return Promise.resolve(tok);
+  if(EMU){var b=function(o){return btoa(JSON.stringify(o)).replace(/=+$/,"").replace(/\+/g,"-").replace(/\//g,"_")},n=Math.floor(Date.now()/1000);
+    tok=b({alg:"none",typ:"JWT"})+"."+b({sub:ADMINS[1],user_id:ADMINS[1],aud:"giants-veiling",iss:"https://securetoken.google.com/giants-veiling",iat:n,exp:n+3600,auth_time:n,firebase:{sign_in_provider:"anonymous"}})+".";tokExp=Date.now()+3e6;return Promise.resolve(tok)}
+  var k=key();if(!k)return Promise.reject(new Error("nokey"));
+  return fetch("https://securetoken.googleapis.com/v1/token?key="+API_KEY,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"grant_type=refresh_token&refresh_token="+encodeURIComponent(k)})
+   .then(function(r){return r.json().then(function(d){if(!r.ok||ADMINS.indexOf(d.user_id)<0)throw new Error("badkey");tok=d.id_token;tokExp=Date.now()+(+d.expires_in-120)*1000;return tok})});
+}
+function rest(method,path,body){return idToken().then(function(t){return fetch(DB+"/"+path+".json?"+NS+"auth="+encodeURIComponent(t),{method:method,body:body===undefined?undefined:JSON.stringify(body)})})
+  .then(function(r){return r.text().then(function(t){if(!r.ok)throw new Error(method+" "+path+": "+r.status+" "+t.slice(0,100));return JSON.parse(t)})})}
+function votes(){return Object.keys(data.votes||{}).map(function(u){var v=data.votes[u];return {uid:u,n:v.n,p:v.p,c:v.c,t:v.t}}).sort(function(a,b){return a.t-b.t})}
+function draws(){return Object.keys(data.draws||{}).sort().map(function(k){return data.draws[k]})}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function tm(t){return new Date(t).toLocaleTimeString("nl-BE",{timeZone:"Europe/Brussels",hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function render(){
+  var vs=votes(),cfg=data.config||{},open=cfg.open!==false;
+  winColor=cfg.winner||winColor;
+  $("nb").textContent=vs.filter(function(v){return v.c==="blauw"}).length;$("nr").textContent=vs.filter(function(v){return v.c==="rood"}).length;$("nt").textContent=vs.length;
+  $("upd").textContent=tm(Date.now());
+  $("st").textContent=open?"OPEN":"GESLOTEN";$("st").className="state "+(open?"open":"closed");
+  $("closeBtn").disabled=!open;$("openBtn").disabled=open;
+  $("wb").classList.toggle("sel",winColor==="blauw");$("wr").classList.toggle("sel",winColor==="rood");
+  var ds=draws(),drawn=ds.map(function(d){return d.uid}),pool=vs.filter(function(v){return v.c===winColor&&drawn.indexOf(v.uid)<0});
+  $("drawBtn").disabled=!winColor||!pool.length||ds.some(function(d){return d.c===winColor});
+  $("redrawBtn").disabled=!winColor||!pool.length||!ds.some(function(d){return d.c===winColor});
+  $("poolInfo").textContent=winColor?(pool.length+" "+(pool.length===1?"persoon":"personen")+" in de trekking voor "+winColor.toUpperCase()+(drawn.length?" (eerder getrokken niet meer)":"")):"Kies eerst de winnende kleur.";
+  var last=ds.filter(function(d){return d.c===winColor}).pop();
+  if(last){$("win").classList.remove("hide");$("win").style.background=last.c==="rood"?"var(--red)":"var(--blue)";$("wn").textContent=last.n;$("wp").textContent=VipGok.fmtPhone(last.p);
+    $("wm").textContent="Gokte "+last.c.toUpperCase()+" · trekking "+ds.filter(function(d){return d.c===winColor}).length+" · "+tm(last.t)}else $("win").classList.add("hide");
+  $("list").innerHTML=vs.map(function(v){return "<tr><td>"+tm(v.t)+"</td><td>"+esc(v.n)+"</td><td>"+esc(VipGok.fmtPhone(v.p))+'</td><td><span class="dot" style="background:'+(v.c==="rood"?"#D71920":"#3643BA")+'"></span>'+v.c+"</td></tr>"}).join("");
+}
+function refresh(){return rest("GET",P).then(function(d){data=d||{};$("err").textContent="";render()},function(e){$("err").textContent="Fout bij laden: "+e.message})}
+function act(p){return p.then(refresh,function(e){alert("Dat lukte niet: "+e.message)})}
+function rnd(n){var a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n}
+function draw(){
+  var ds=draws(),drawn=ds.map(function(d){return d.uid}),pool=votes().filter(function(v){return v.c===winColor&&drawn.indexOf(v.uid)<0});
+  if(!pool.length)return alert("Niemand meer in de trekking voor "+winColor);
+  var w=pool[rnd(pool.length)];
+  var u={"config/open":false,"config/winner":winColor};u["draws/"+Date.now()]={uid:w.uid,n:w.n,p:w.p,c:w.c,t:{".sv":"timestamp"}};
+  act(rest("PATCH",P,u));
+}
+$("closeBtn").onclick=function(){act(rest("PATCH",P+"/config",{open:false}))};
+$("openBtn").onclick=function(){act(rest("PATCH",P+"/config",{open:true}))};
+$("wb").onclick=function(){winColor="blauw";act(rest("PATCH",P+"/config",{winner:"blauw"}))};
+$("wr").onclick=function(){winColor="rood";act(rest("PATCH",P+"/config",{winner:"rood"}))};
+$("drawBtn").onclick=draw;
+$("redrawBtn").onclick=function(){if(confirm("Opnieuw trekken? De vorige winnaar doet niet meer mee."))draw()};
+$("csvBtn").onclick=function(){var rows=[["tijd (Brussel)","naam","gsm","kleur"]].concat(votes().map(function(v){return [new Date(v.t).toLocaleString("nl-BE",{timeZone:"Europe/Brussels"}),v.n,VipGok.fmtPhone(v.p),v.c]}));
+  var csv="\ufeff"+rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(";")}).join("\n");
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="vip-gok-17-11.csv";a.click()};
+$("wipeBtn").onclick=function(){if(prompt("Alle namen, GSM-nummers en trekkingen definitief wissen? Typ WISSEN")==="WISSEN")act(rest("PUT",P,{config:{open:false}}))};
+$("keyBtn").onclick=function(){try{localStorage.setItem(LS,$("key").value.trim())}catch(e){}tok=null;start()};
+function start(){idToken().then(function(){$("login").classList.add("hide");$("app").classList.remove("hide");refresh();if(!window._iv)window._iv=setInterval(refresh,2500)},
+  function(e){$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":"Deze sleutel werkt niet."})}
+start();
+})();
+</script>
+</body>
+</html>

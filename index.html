@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Waag je gok! VIP · SPORT NIGHT powered by Decathlon</title>
+<meta name="description" content="VIP-gok tijdens de rust van Windrose Giants Antwerp vs Vilpas Vikings, di 17/11: welke tent is het snelst opgevouwen? Kies blauw of rood en maak kans op een fles champagne.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#3643BA">
+<link rel="icon" href="assets/logo-giants-sm.png">
+<style>
+:root{--blue:#3643BA;--blue2:#28329a;--red:#D71920;--red2:#a80f15;--ink:#101828;--bg:#EEF0FA}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%;font-size:20px}
+header{background:var(--blue);text-align:center;padding:10px 10px 0;border-bottom:8px solid var(--red)}
+header img{width:100%;max-width:460px;height:auto;display:block;margin:0 auto}
+main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+.card{background:#fff;border-radius:20px;box-shadow:0 8px 28px rgba(54,67,186,.15);padding:22px 20px;margin-bottom:16px}
+h1{font-size:36px;line-height:1.1;margin:0 0 8px;color:var(--blue);font-weight:900}
+.lead{font-size:23px;line-height:1.35;margin:0 0 6px;font-weight:700}
+.small{font-size:18px;line-height:1.4;color:#344054}
+.legend{display:flex;gap:10px;margin:14px 0 2px}
+.legend div{flex:1;border-radius:14px;padding:10px;color:#fff;font-weight:900;text-align:center;font-size:20px;line-height:1.2}
+.legend .b{background:var(--blue)}.legend .r{background:var(--red)}
+label{display:block;font-weight:800;font-size:22px;margin:16px 0 6px}
+input{width:100%;font-size:26px;padding:16px 14px;border:3px solid #98A2C9;border-radius:14px;color:var(--ink);background:#fff}
+input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(54,67,186,.2)}
+.step{font-size:26px;font-weight:900;margin:26px 0 10px;text-align:center}
+.pick{display:block;width:100%;border:0;border-radius:22px;padding:22px 16px;margin:0 0 16px;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:0 6px 0 rgba(0,0,0,.25);text-align:center}
+.pick:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.pick.blauw{background:var(--blue)}.pick.rood{background:var(--red)}
+.pick svg{width:84px;height:62px;display:block;margin:0 auto 6px}
+.pick .c{display:block;font-size:46px;font-weight:900;letter-spacing:2px;font-style:italic;line-height:1}
+.pick .t{display:block;font-size:26px;font-weight:700;margin-top:6px}
+.err{color:var(--red2);font-weight:800;font-size:21px;min-height:0;margin:10px 0 0}
+.priv{font-size:16px;color:#475467;line-height:1.45;text-align:center;margin-top:6px}
+.hide{display:none!important}
+.ov{position:fixed;inset:0;background:rgba(16,24,40,.72);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
+.ov .card{max-width:520px;width:100%;text-align:center;margin:0}
+.sw{border-radius:18px;color:#fff;padding:20px 10px;margin:14px 0 18px}
+.sw b{display:block;font-size:48px;font-style:italic;letter-spacing:2px;line-height:1}
+.sw span{font-size:26px;font-weight:700}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:20px;font-size:26px;font-weight:900;cursor:pointer;background:#12B76A;color:#fff;margin-bottom:12px}
+.btn.grey{background:#E4E7EC;color:var(--ink)}
+.btn:disabled{opacity:.6}
+.big{font-size:84px;line-height:1;margin:4px 0}
+.done h1{font-size:34px}
+footer{text-align:center;font-size:16px;color:#475467;padding:0 14px 30px}
+</style>
+</head>
+<body>
+<header><img src="assets/logo-dark-web.png" alt="Windrose Giants Antwerp SPORT NIGHT powered by Decathlon"></header>
+<main>
+  <section id="s-load" class="card"><p class="lead" style="text-align:center">Even laden…</p></section>
+
+  <section id="s-vote" class="hide">
+    <div class="card">
+      <h1>Waag je gok!</h1>
+      <p class="lead">Welke tent is het snelst opgevouwen?</p>
+      <p class="small">Tijdens de rust plooien twee deelnemers zo snel mogelijk een tent op en steken die in de zak. Onder alle juiste gokken loten we een <b>fles champagne</b>.</p>
+      <div class="legend"><div class="b">BLAUW =<br>linkertent</div><div class="r">ROOD =<br>rechtertent</div></div>
+    </div>
+    <form id="f" class="card" novalidate autocomplete="on">
+      <div class="step" style="margin-top:0">1. Wie ben je?</div>
+      <label for="name">Voornaam en naam</label>
+      <input id="name" name="name" autocomplete="name" autocapitalize="words" maxlength="80" placeholder="bv. Jan Peeters">
+      <label for="gsm">GSM-nummer</label>
+      <input id="gsm" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="bv. 0470 12 34 56">
+      <p id="ferr" class="err"></p>
+      <div class="step">2. Tik op je kleur</div>
+      <button type="button" class="pick blauw" data-c="blauw"><svg viewBox="0 0 84 62" aria-hidden="true"><path d="M42 4 4 58h76z" fill="#fff"/><path d="M42 26 30 58h24z" fill="#3643BA"/></svg><span class="c">BLAUW</span><span class="t">linkertent</span></button>
+      <button type="button" class="pick rood" data-c="rood"><svg viewBox="0 0 84 62" aria-hidden="true"><path d="M42 4 4 58h76z" fill="#fff"/><path d="M42 26 30 58h24z" fill="#D71920"/></svg><span class="c">ROOD</span><span class="t">rechtertent</span></button>
+      <p class="priv">Eén gok per persoon. Je naam en GSM-nummer gebruiken we alleen om de winnaar te contacteren. We wissen ze na de wedstrijd.</p>
+    </form>
+  </section>
+
+  <section id="s-done" class="card done hide" style="text-align:center">
+    <div class="big">✅</div>
+    <h1>Je gok is geregistreerd, veel succes!</h1>
+    <div id="dsw" class="sw"><b id="dc"></b><span id="dt"></span></div>
+    <p class="lead" id="dn"></p>
+    <p class="small">De winnaar wordt na het spel tijdens de rust bekendgemaakt. Win jij de fles champagne, dan bellen we je op je GSM.</p>
+  </section>
+
+  <section id="s-closed" class="card hide" style="text-align:center">
+    <div class="big">🔒</div>
+    <h1>De stemming is gesloten</h1>
+    <p class="lead">Bedankt om mee te spelen! Kijk tijdens de rust wie er wint.</p>
+  </section>
+
+  <section id="s-err" class="card hide" style="text-align:center">
+    <div class="big">📶</div>
+    <h1>Oei, geen verbinding</h1>
+    <p class="lead">Controleer je internet en probeer opnieuw.</p>
+    <button class="btn" onclick="location.reload()">Opnieuw proberen</button>
+  </section>
+</main>
+<footer>Windrose Giants Antwerp vs Vilpas Vikings · di 17/11 · Lotto Arena</footer>
+
+<div id="ov" class="ov hide" role="dialog" aria-modal="true">
+  <div class="card">
+    <p class="lead">Is dit je gok?</p>
+    <div id="osw" class="sw"><b id="oc"></b><span id="ot"></span></div>
+    <button id="ok" class="btn">Ja, bevestig</button>
+    <button id="back" class="btn grey">Nee, terug</button>
+  </div>
+</div>
+
+<script src="vip.js?v=1"></script>
+<script>
+(function(){
+var FB={apiKey:"AIzaSyAoVJMKiuVDSqqyMW4vE6dbbcZ5SW5IUSE",authDomain:"giants-veiling.firebaseapp.com",
+  databaseURL:"https://giants-veiling-default-rtdb.europe-west1.firebasedatabase.app",projectId:"giants-veiling"};
+var KEY="vipgok1711_vote", $=function(i){return document.getElementById(i)}, db, uid, choice=null;
+var COL={blauw:["BLAUW","linkertent","#3643BA"],rood:["ROOD","rechtertent","#D71920"]};
+function show(id){["s-load","s-vote","s-done","s-closed","s-err"].forEach(function(s){$(s).classList.toggle("hide",s!==id)});window.scrollTo(0,0)}
+function sw(pre,c){$(pre+"c").textContent=COL[c][0];$(pre+"t").textContent="= "+COL[c][1];$(pre+"sw").style.background=COL[c][2]}
+function done(v){try{localStorage.setItem(KEY,JSON.stringify({c:v.c,n:v.n}))}catch(e){}
+  sw("d",v.c);$("dn").textContent=v.n?("Op naam van "+v.n):"";show("s-done")}
+function load(src){return new Promise(function(ok,ko){var s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=ko;document.head.appendChild(s)})}
+var saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){}
+if(saved&&saved.c)done(saved);
+var V="https://www.gstatic.com/firebasejs/10.14.1/";
+var ready=load(V+"firebase-app-compat.js").then(function(){return load(V+"firebase-database-compat.js")}).then(function(){return load(V+"firebase-auth-compat.js")})
+ .then(function(){firebase.initializeApp(FB);db=firebase.database();
+   if(/[?&]emu=1/.test(location.search)){db.useEmulator("127.0.0.1",9000);firebase.auth().useEmulator("http://127.0.0.1:9099",{disableWarnings:true})}
+   var a=firebase.auth();return a.currentUser?a.currentUser:new Promise(function(ok){var un=a.onAuthStateChanged(function(u){un();ok(u)})})})
+ .then(function(u){return u||firebase.auth().signInAnonymously().then(function(c){return c.user})})
+ .then(function(u){uid=u.uid;return db.ref(VipGok.P+"/votes/"+uid).once("value").then(function(s){
+     if(s.exists())return done(s.val());
+     return db.ref(VipGok.P+"/config/open").once("value").then(function(o){if(o.val()===false){if(!saved)show("s-closed")}else if(!saved)show("s-vote")})})});
+ready.catch(function(e){console.error(e);if(!saved)show("s-err")});
+// live sluiten
+ready.then(function(){db.ref(VipGok.P+"/config/open").on("value",function(o){if(o.val()===false&&!$("s-vote").classList.contains("hide")){$("ov").classList.add("hide");show("s-closed")}},function(){})});
+
+function check(){var n=$("name").value.trim(),p=VipGok.normPhone($("gsm").value);$("ferr").textContent="";
+  if(n.length<2||!/\s/.test(n)){$("ferr").textContent="Vul je voornaam én naam in.";$("name").focus();return false}
+  if(!p){$("ferr").textContent="Dat GSM-nummer lijkt niet te kloppen.";$("gsm").focus();return false}return true}
+Array.prototype.forEach.call(document.querySelectorAll(".pick"),function(b){b.onclick=function(){
+  if(!check())return;choice=b.getAttribute("data-c");sw("o",choice);if(document.activeElement)document.activeElement.blur();$("ov").classList.remove("hide")}});
+$("back").onclick=function(){$("ov").classList.add("hide")};
+$("f").onsubmit=function(e){e.preventDefault()};
+$("ok").onclick=function(){var b=$("ok");b.disabled=true;b.textContent="Even geduld…";
+  ready.then(function(){return VipGok.vote(db,uid,$("name").value,$("gsm").value,choice,firebase.database.ServerValue.TIMESTAMP)})
+  .then(function(r){$("ov").classList.add("hide");
+    if(r.status==="ok"||r.status==="already")done(r.vote);
+    else if(r.status==="closed")show("s-closed");
+    else $("ferr").textContent="Met dit GSM-nummer werd al een gok gewaagd. Eén gok per persoon.";})
+  .catch(function(e){console.error(e);$("ov").classList.add("hide");$("ferr").textContent="Oei, dat lukte niet. Controleer je internet en probeer opnieuw."})
+  .then(function(){b.disabled=false;b.textContent="Ja, bevestig"})};
+})();
+</script>
+</body>
+</html>
