@@ -45,8 +45,8 @@ input{font-size:18px;padding:12px;width:100%;border:2px solid #98A2C9;border-rad
 <header><img src="assets/logo-dark-web.png" alt=""><h1>Beheer VIP-gok · welke tent is het snelst opgevouwen?</h1></header>
 <main>
 <section id="login" class="card hide">
-  <p><b>Beheerderssleutel nodig.</b> Open de beheerlink die je kreeg, of plak de sleutel hieronder.</p>
-  <input id="key" type="password" autocomplete="off" placeholder="sleutel"><br><br>
+  <p><b>Code nodig.</b> Vul de beheercode in.</p>
+  <input id="key" type="password" autocomplete="off" placeholder="code" inputmode="numeric"><br><br>
   <button class="blue" id="keyBtn">Inloggen</button>
 </section>
 <p id="err"></p>
@@ -80,6 +80,9 @@ var API_KEY="AIzaSyAoVJMKiuVDSqqyMW4vE6dbbcZ5SW5IUSE", ADMINS=["7RtLUCunESf9F8Kw
 var EMU=/[?&]emu=1/.test(location.search), P=VipGok.P, LS="vipgok1711_admin_k";
 var DB=EMU?"http://127.0.0.1:9000":"https://giants-veiling-default-rtdb.europe-west1.firebasedatabase.app", NS=EMU?"ns=giants-veiling-default-rtdb&":"";
 var $=function(i){return document.getElementById(i)}, tok=null, tokExp=0, data={}, winColor=null;
+var ENC={"s": "dkIiyhveA/i0Gei7f2PQBw==", "i": "nA1bISsbikFdKy0E", "c": "yBfpci79TTlIkNayNrnA96u3wUP+WNu2PxQ/0xQu1lr5AQrNg1PAeLbpD/rB8Z/NXiEQEOC6cgwmBC6MFyEspDqCvG2IBhoqvoS1cvFogCiBqmojCk+2dIkX8CHA95tex4+K+cEBca/Nrdlr2C3BwCj/s5lUE0tD53uT3CVWTv/fW0YVclTJuguflZ/UHLznwSK5YVfMNFAJY+AIPQUvFyA61opAsv3TL8RN46/2ngItlfty2FIZ9Ff7OrYoB1+71sRWAdm4PNPXHoLSeOOBhXO3KbfThR/N/V0AJA=="};
+function b64(x){return Uint8Array.from(atob(x),function(c){return c.charCodeAt(0)})}
+function unlock(code){var S=crypto.subtle;return S.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]).then(function(k){return S.deriveKey({name:"PBKDF2",salt:b64(ENC.s),iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["decrypt"])}).then(function(k){return S.decrypt({name:"AES-GCM",iv:b64(ENC.i)},k,b64(ENC.c))}).then(function(b){return new TextDecoder().decode(b)})}
 var m=location.hash.match(/k=([^&]+)/);
 if(m){try{localStorage.setItem(LS,decodeURIComponent(m[1]))}catch(e){}history.replaceState(null,"",location.pathname+location.search)}
 function key(){try{return localStorage.getItem(LS)}catch(e){return null}}
@@ -134,7 +137,9 @@ $("csvBtn").onclick=function(){var rows=[["tijd (Brussel)","naam","gsm","kleur"]
   var csv="\ufeff"+rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(";")}).join("\n");
   var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="vip-gok-17-11.csv";a.click()};
 $("wipeBtn").onclick=function(){if(prompt("Alle namen, GSM-nummers en trekkingen definitief wissen? Typ WISSEN")==="WISSEN")act(rest("PUT",P,{config:{open:false}}))};
-$("keyBtn").onclick=function(){try{localStorage.setItem(LS,$("key").value.trim())}catch(e){}tok=null;start()};
+function tryKey(){var v=$("key").value.trim();$("err").textContent="";
+  unlock(v).then(function(k){try{localStorage.setItem(LS,k)}catch(e){}tok=null;start()},function(){$("err").textContent="Verkeerde code.";$("key").value="";$("key").focus()})}
+$("keyBtn").onclick=tryKey;$("key").onkeydown=function(e){if(e.key==="Enter")tryKey()};
 function start(){idToken().then(function(){$("login").classList.add("hide");$("app").classList.remove("hide");refresh();if(!window._iv)window._iv=setInterval(refresh,2500)},
   function(e){$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":"Deze sleutel werkt niet."})}
 start();
