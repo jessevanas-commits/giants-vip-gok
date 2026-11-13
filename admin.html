@@ -141,8 +141,8 @@ function tryKey(){var v=$("key").value.trim();$("err").textContent="";
   unlock(v).then(function(k){try{localStorage.setItem(LS,k)}catch(e){}tok=null;start()},function(){$("err").textContent="Verkeerde code.";$("key").value="";$("key").focus()})}
 $("keyBtn").onclick=tryKey;$("key").onkeydown=function(e){if(e.key==="Enter")tryKey()};
 function start(){idToken().then(function(){$("login").classList.add("hide");$("app").classList.remove("hide");refresh();if(!window._iv)window._iv=setInterval(refresh,2500)},
-  function(e){$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":"Deze sleutel werkt niet."})}
-start();
+  function(e){try{localStorage.removeItem(LS)}catch(x){}tok=null;$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":"Typ de code opnieuw.";$("key").value="";$("key").focus()})}
+(function(){var k=key();if(k&&k.length<40){try{localStorage.removeItem(LS)}catch(x){}unlock(k).then(function(r){try{localStorage.setItem(LS,r)}catch(e){}start()},function(){start()})}else start()})();
 })();
 </script>
 </body>
