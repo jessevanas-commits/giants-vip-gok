@@ -1,4 +1,4 @@
-// Gedeelde logica VIP-gok 17/11 (browser + node-test). Database-pad: vipgok1711
+// Gedeelde logica VIP Kanspel 17/11 (browser + node-test). Database-pad: vipgok1711
 // Spel: (1) wie scoort de eerste driepunter, (2) punten Giants na het eerste kwart.
 // De bestaande databaseregels (votes/<uid> met n,p,c,t + phones/<gsm>) blijven gelden:
 // de twee antwoorden zitten in het veld n als "Naam #<rugnummer>#<punten>", c is altijd "rood".
@@ -14,10 +14,19 @@
     { nr: "11", name: "Jacari White",     img: "11-white" },
     { nr: "13", name: "Joel Murray",      img: "13-murray" },
     { nr: "24", name: "Kevin Tumba",      img: "24-tumba" },
-    { nr: "26", name: "Niels De Ridder",  img: "26-deridder" },
     { nr: "32", name: "Vincent Kesteloot",img: "32-kesteloot" }
   ];
-  function player(nr) { for (var i = 0; i < PLAYERS.length; i++) if (PLAYERS[i].nr === String(nr)) return PLAYERS[i]; return null; }
+  // Niet meer in de selectie, wel herkend als iemands eerdere antwoord wordt geladen.
+  var RETIRED = [
+    { nr: "26", name: "Niels De Ridder", img: "26-deridder" }
+  ];
+  function findIn(list, nr) {
+    nr = String(nr);
+    for (var i = 0; i < list.length; i++) if (list[i].nr === nr) return list[i];
+    return null;
+  }
+  function activePlayer(nr) { return findIn(PLAYERS, nr); }
+  function player(nr) { return activePlayer(nr) || findIn(RETIRED, nr); }
   function normPhone(s) {
     var d = String(s || "").replace(/[^0-9+]/g, "");
     if (d.indexOf("+") === 0) d = d.slice(1); else if (d.indexOf("00") === 0) d = d.slice(2);
@@ -33,7 +42,7 @@
   function cleanName(s) { return String(s || "").replace(/#/g, "").trim().replace(/\s+/g, " "); }
   function validScore(x) { var s = String(x).trim(); if (!/^\d{1,2}$/.test(s)) return null; var v = +s; return v <= 70 ? v : null; }
   function encode(name, nr, score) { return cleanName(name) + " #" + nr + "#" + score; }
-  // n -> {name, nr, score}  (null als het geen geldige gok van dit spel is, bv. oude tent-gok)
+  // n -> {name, nr, score}  (null als het geen geldige voorspelling van dit spel is, bv. oude tent-gok)
   function decode(n) {
     var m = /^(.*) #(\d{1,2})#(\d{1,2})$/.exec(String(n || ""));
     if (!m || !player(m[2])) return null;
@@ -44,7 +53,7 @@
     var p = normPhone(phoneRaw), n = cleanName(name), sc = validScore(scoreRaw);
     if (n.length < 2 || n.length > 60) return Promise.reject(new Error("naam"));
     if (!p) return Promise.reject(new Error("gsm"));
-    if (!player(nr)) return Promise.reject(new Error("speler"));
+    if (!activePlayer(nr)) return Promise.reject(new Error("speler"));
     if (sc === null) return Promise.reject(new Error("punten"));
     var mine = db.ref(P + "/votes/" + uid);
     function back(s) { return { status: "already", vote: decode(s.val().n) || { name: s.val().n } }; }
@@ -73,6 +82,6 @@
     }
     return r;
   }
-  var api = { P: P, PLAYERS: PLAYERS, player: player, normPhone: normPhone, fmtPhone: fmtPhone, encode: encode, decode: decode, validScore: validScore, vote: vote, winners: winners };
+  var api = { P: P, PLAYERS: PLAYERS, player: player, activePlayer: activePlayer, normPhone: normPhone, fmtPhone: fmtPhone, encode: encode, decode: decode, validScore: validScore, vote: vote, winners: winners };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.VipGok = api;
 })(this);

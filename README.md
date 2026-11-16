@@ -1,8 +1,8 @@
-# VIP-gok · Windrose Giants Antwerp vs Vilpas Vikings (di 17/11/2026)
+# VIP Kanspel · Windrose Giants Antwerp vs Vilpas Vikings (di 17/11/2026)
 
-VIP-gasten gokken (1) wie de eerste driepunter van de Giants scoort en (2) hoeveel punten de Giants hebben na het eerste kwart. Eén gok per persoon (per toestel én per GSM-nummer).
+VIP-gasten wagen hun kans: (1) wie scoort de eerste driepunter van de Giants en (2) hoeveel punten hebben de Giants na het eerste kwart? Eén kans per persoon (per toestel én per GSM-nummer). De winnaar ontvangt een fles champagne, uitgereikt tijdens de VIP-talk na de wedstrijd.
 
-- `index.html` – gokpagina (QR-code)
+- `index.html` – kanspelpagina (QR-code), Nederlands of Engels
 - `admin.html` – beheer: stemming sluiten/openen, uitslagen invullen, winnaars, CSV, reset. Installeerbaar als app (admin.webmanifest).
 - Spelersfoto's: antwerpgiants.be/roster (seizoen 2026-2027), bijgesneden.
 

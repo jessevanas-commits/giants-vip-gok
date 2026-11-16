@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Waag je gok! VIP · Windrose Giants Antwerp</title>
-<meta name="description" content="VIP-gok tijdens Windrose Giants Antwerp vs Vilpas Vikings, di 17/11: wie scoort de eerste driepunter en hoeveel punten hebben de Giants na het eerste kwart?">
+<title>Waag je kans! VIP Kanspel · Windrose Giants Antwerp</title>
+<meta name="description" content="VIP Kanspel tijdens Windrose Giants Antwerp vs Vilpas Vikings, di 17/11: wie scoort de eerste driepunter en hoeveel punten hebben de Giants na het eerste kwart? De winnaar ontvangt een fles champagne.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#111111">
 <link rel="icon" href="assets/logo-giants-sm.png">
@@ -12,14 +12,18 @@
 :root{--red:#D71920;--red2:#a80f15;--ink:#111;--bg:#f3f3f3;--mut:#555}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%;font-size:19px}
-header{background:#111;text-align:center;padding:14px 10px 12px;border-bottom:7px solid var(--red);color:#fff}
+header{background:#111;text-align:center;padding:14px 10px 12px;border-bottom:7px solid var(--red);color:#fff;position:relative}
 header img{height:108px;width:auto;display:block;margin:0 auto 6px}
 header .m{font-size:16px;font-weight:700;letter-spacing:.5px;opacity:.9}
+.lang{position:absolute;top:10px;right:10px;display:flex;border:2px solid #fff;border-radius:999px;overflow:hidden;background:#000;z-index:2}
+.lang button{background:transparent;color:#fff;border:0;font-weight:800;font-size:14px;letter-spacing:.4px;padding:6px 12px;cursor:pointer;font-family:inherit}
+.lang button.on{background:var(--red)}
 main{max-width:620px;margin:0 auto;padding:14px 12px 40px}
 .card{background:#fff;border-radius:18px;box-shadow:0 6px 22px rgba(0,0,0,.08);padding:20px 16px;margin-bottom:14px}
 h1{font-size:34px;line-height:1.1;margin:0 0 8px;color:var(--red);font-weight:900}
 .lead{font-size:21px;line-height:1.35;margin:0 0 6px;font-weight:700}
 .small{font-size:17px;line-height:1.45;color:#333;margin:6px 0 0}
+.prize{background:#111;color:#fff;border-radius:16px;padding:14px 16px;margin:0 0 14px;border:3px solid var(--red);font-size:18px;line-height:1.4;font-weight:700}
 .q{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px}
 .q .n{flex:none;width:38px;height:38px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:21px;display:flex;align-items:center;justify-content:center}
 .q h2{font-size:23px;line-height:1.2;margin:4px 0 0;font-weight:900}
@@ -55,85 +59,200 @@ footer{text-align:center;font-size:15px;color:var(--mut);padding:0 14px 30px}
 </style>
 </head>
 <body>
-<header><img src="assets/logo-wga.png" alt="Windrose Giants Antwerp"><div class="m">VIP-GOK · Giants vs Vilpas Vikings · di 17/11</div></header>
+<header>
+  <div class="lang" role="group" aria-label="Taal / Language">
+    <button type="button" id="lang-nl" data-set-lang="nl">NL</button>
+    <button type="button" id="lang-en" data-set-lang="en">EN</button>
+  </div>
+  <img src="assets/logo-wga.png" alt="Windrose Giants Antwerp">
+  <div class="m" data-i18n="header"></div>
+</header>
 <main>
-  <section id="s-load" class="card"><p class="lead" style="text-align:center">Even laden…</p></section>
+  <section id="s-load" class="card"><p class="lead" style="text-align:center" data-i18n="loading"></p></section>
 
   <section id="s-vote" class="hide">
     <div class="card">
-      <h1>Waag je gok!</h1>
-      <p class="lead">Twee vragen over de wedstrijd van vanavond.</p>
-      <p class="small">Kies wie de eerste driepunter van de Giants scoort en voorspel hoeveel punten de Giants hebben na het eerste kwart. Je mag maar <b>één keer</b> gokken.</p>
+      <h1 data-i18n="h1"></h1>
+      <p class="lead" data-i18n="lead"></p>
+      <p class="small" data-i18n="intro"></p>
     </div>
+    <p class="prize" data-i18n="prize"></p>
     <form id="f" class="card" novalidate autocomplete="on">
-      <div class="q"><span class="n">👤</span><h2>Wie ben je?</h2></div>
-      <label for="name">Voornaam en naam</label>
-      <input id="name" name="name" autocomplete="name" autocapitalize="words" maxlength="60" placeholder="bv. Jan Peeters">
-      <label for="gsm">GSM-nummer</label>
-      <input id="gsm" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="bv. 0470 12 34 56">
+      <div class="q"><span class="n">👤</span><h2 data-i18n="who"></h2></div>
+      <label for="name" data-i18n="nameLbl"></label>
+      <input id="name" name="name" autocomplete="name" autocapitalize="words" maxlength="60" data-i18n-placeholder="namePh">
+      <label for="gsm" data-i18n="gsmLbl"></label>
+      <input id="gsm" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" data-i18n-placeholder="gsmPh">
     </form>
     <div class="card">
-      <div class="q"><span class="n">1</span><h2>Wie scoort de eerste driepunter van de Giants?</h2></div>
+      <div class="q"><span class="n">1</span><h2 data-i18n="q1"></h2></div>
       <div id="grid" class="grid"></div>
     </div>
     <div class="card">
-      <div class="q"><span class="n">2</span><h2>Hoeveel punten hebben de Giants gescoord na het eerste kwart?</h2></div>
-      <div class="num"><button type="button" id="minus" aria-label="min 1">−</button>
-        <input id="score" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="?" aria-label="aantal punten">
-        <button type="button" id="plus" aria-label="plus 1">+</button></div>
+      <div class="q"><span class="n">2</span><h2 data-i18n="q2"></h2></div>
+      <div class="num"><button type="button" id="minus" data-i18n-aria="minus">−</button>
+        <input id="score" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="?" data-i18n-aria="scoreAria">
+        <button type="button" id="plus" data-i18n-aria="plus">+</button></div>
     </div>
     <div class="card">
       <p id="ferr" class="err" style="margin-top:0"></p>
-      <button type="button" id="go" class="btn">Verstuur mijn gok</button>
-      <p class="priv">Eén gok per persoon. Je naam en GSM-nummer gebruiken we alleen om de winnaars te contacteren. We wissen ze na de wedstrijd.</p>
+      <button type="button" id="go" class="btn" data-i18n="submit"></button>
+      <p class="priv" data-i18n="priv"></p>
     </div>
   </section>
 
   <section id="s-done" class="card hide" style="text-align:center">
     <div class="big">✅</div>
-    <h1>Je gok is geregistreerd, veel succes!</h1>
+    <h1 data-i18n="doneH1"></h1>
     <div id="dsum"></div>
     <p class="lead" id="dn"></p>
-    <p class="small">De winnaars worden tijdens de wedstrijd bekendgemaakt. Win jij, dan bellen we je op je GSM.</p>
+    <p class="small" data-i18n="doneTxt"></p>
   </section>
 
   <section id="s-closed" class="card hide" style="text-align:center">
     <div class="big">🔒</div>
-    <h1>De stemming is gesloten</h1>
-    <p class="lead">Bedankt om mee te spelen! De winnaars worden tijdens de wedstrijd bekendgemaakt.</p>
+    <h1 data-i18n="closedH1"></h1>
+    <p class="lead" data-i18n="closedTxt"></p>
   </section>
 
   <section id="s-err" class="card hide" style="text-align:center">
     <div class="big">📶</div>
-    <h1>Oei, geen verbinding</h1>
-    <p class="lead">Controleer je internet en probeer opnieuw.</p>
-    <button class="btn" onclick="location.reload()">Opnieuw proberen</button>
+    <h1 data-i18n="errH1"></h1>
+    <p class="lead" data-i18n="errTxt"></p>
+    <button class="btn" onclick="location.reload()" data-i18n="retry"></button>
   </section>
 </main>
-<footer>Windrose Giants Antwerp vs Vilpas Vikings · di 17/11 · Lotto Arena</footer>
+<footer data-i18n="footer"></footer>
 
 <div id="ov" class="ov hide" role="dialog" aria-modal="true">
   <div class="card">
-    <p class="lead">Is dit je gok?</p>
+    <p class="lead" data-i18n="confirmLead"></p>
     <div id="osum"></div>
-    <button id="ok" class="btn">Ja, bevestig</button>
-    <button id="back" class="btn grey">Nee, terug</button>
+    <button id="ok" class="btn" data-i18n="confirmYes"></button>
+    <button id="back" class="btn grey" data-i18n="confirmNo"></button>
   </div>
 </div>
 
-<script src="vip.js?v=2"></script>
+<script src="vip.js?v=3"></script>
 <script>
 (function(){
 var FB={apiKey:"AIzaSyAoVJMKiuVDSqqyMW4vE6dbbcZ5SW5IUSE",authDomain:"giants-veiling.firebaseapp.com",
   databaseURL:"https://giants-veiling-default-rtdb.europe-west1.firebasedatabase.app",projectId:"giants-veiling"};
-var KEY="vipgok1711_v2_vote", $=function(i){return document.getElementById(i)}, db, uid, pick=null;
+var KEY="vipgok1711_v2_vote", LANG_KEY="vipkanspel_lang", $=function(i){return document.getElementById(i)}, db, uid, pick=null, lastVote=null;
+var I18N={
+  nl:{
+    title:"Waag je kans! VIP Kanspel · Windrose Giants Antwerp",
+    desc:"VIP Kanspel tijdens Windrose Giants Antwerp vs Vilpas Vikings, di 17/11: wie scoort de eerste driepunter en hoeveel punten hebben de Giants na het eerste kwart? De winnaar ontvangt een fles champagne.",
+    header:"VIP Kanspel · Windrose Giants Antwerp vs Vilpas Vikings · di 17/11",
+    loading:"Even laden…",
+    h1:"Waag je kans!",
+    lead:"Twee vragen over de wedstrijd van vanavond.",
+    intro:"Kies wie de eerste driepunter van de Giants scoort en voorspel hoeveel punten de Giants hebben na het eerste kwart. Je mag maar <b>één keer</b> meedoen.",
+    prize:"🍾 De winnaar ontvangt een fles champagne. Die wordt uitgereikt tijdens de VIP-talk na de wedstrijd.",
+    who:"Wie ben je?",
+    nameLbl:"Voornaam en naam",
+    namePh:"bv. Jan Peeters",
+    gsmLbl:"GSM-nummer",
+    gsmPh:"bv. 0470 12 34 56",
+    q1:"Wie scoort de eerste driepunter van de Giants?",
+    q2:"Hoeveel punten hebben de Giants gescoord na het eerste kwart?",
+    minus:"min 1", plus:"plus 1", scoreAria:"aantal punten",
+    submit:"Verstuur mijn kans",
+    priv:"Eén kans per persoon. Je naam en GSM-nummer gebruiken we alleen om de winnaars te contacteren. We wissen ze na de wedstrijd.",
+    doneH1:"Je kans is geregistreerd, veel succes!",
+    doneTxt:"De winnaar ontvangt een fles champagne tijdens de VIP-talk na de wedstrijd. Win jij, dan bellen we je op je GSM.",
+    onName:"Op naam van {name}",
+    closedH1:"De stemming is gesloten",
+    closedTxt:"Bedankt om mee te spelen! De winnaar ontvangt een fles champagne tijdens de VIP-talk na de wedstrijd.",
+    errH1:"Oei, geen verbinding",
+    errTxt:"Controleer je internet en probeer opnieuw.",
+    retry:"Opnieuw proberen",
+    footer:"Windrose Giants Antwerp vs Vilpas Vikings · di 17/11 · Lotto Arena",
+    confirmLead:"Is dit je kans?",
+    confirmYes:"Ja, bevestig",
+    confirmNo:"Nee, terug",
+    wait:"Even geduld…",
+    lblThree:"Eerste driepunter",
+    lblQ1:"Na Q1",
+    errName:"Vul je voornaam én naam in.",
+    errGsm:"Dat GSM-nummer lijkt niet te kloppen.",
+    errPlayer:"Kies bij vraag 1 een speler.",
+    errScore:"Vul bij vraag 2 een aantal punten in (0 tot 70).",
+    errPhone:"Met dit GSM-nummer werd al meegedaan. Eén kans per persoon.",
+    errNet:"Oei, dat lukte niet. Controleer je internet en probeer opnieuw."
+  },
+  en:{
+    title:"Take your chance! VIP Kanspel · Windrose Giants Antwerp",
+    desc:"VIP Kanspel during Windrose Giants Antwerp vs Vilpas Vikings, Tue 17/11: who scores the first three-pointer, and how many points do the Giants have after the first quarter? The winner receives a bottle of champagne.",
+    header:"VIP Kanspel · Windrose Giants Antwerp vs Vilpas Vikings · Tue 17/11",
+    loading:"Loading…",
+    h1:"Take your chance!",
+    lead:"Two questions about tonight's game.",
+    intro:"Pick who scores the Giants' first three-pointer and predict how many points the Giants have after the first quarter. You may enter only <b>once</b>.",
+    prize:"🍾 The winner receives a bottle of champagne, presented during the VIP talk after the game.",
+    who:"Who are you?",
+    nameLbl:"First and last name",
+    namePh:"e.g. Jan Peeters",
+    gsmLbl:"Mobile number",
+    gsmPh:"e.g. 0470 12 34 56",
+    q1:"Who scores the Giants' first three-pointer?",
+    q2:"How many points have the Giants scored after the first quarter?",
+    minus:"minus 1", plus:"plus 1", scoreAria:"point total",
+    submit:"Send my entry",
+    priv:"One entry per person. We only use your name and mobile number to contact the winners. We delete them after the game.",
+    doneH1:"Your entry is in, good luck!",
+    doneTxt:"The winner receives a bottle of champagne during the VIP talk after the game. If you win, we'll call you on your mobile.",
+    onName:"In the name of {name}",
+    closedH1:"Voting is closed",
+    closedTxt:"Thanks for playing! The winner receives a bottle of champagne during the VIP talk after the game.",
+    errH1:"Oops, no connection",
+    errTxt:"Check your internet and try again.",
+    retry:"Try again",
+    footer:"Windrose Giants Antwerp vs Vilpas Vikings · Tue 17/11 · Lotto Arena",
+    confirmLead:"Is this your entry?",
+    confirmYes:"Yes, confirm",
+    confirmNo:"No, go back",
+    wait:"Please wait…",
+    lblThree:"First three-pointer",
+    lblQ1:"After Q1",
+    errName:"Please enter your first and last name.",
+    errGsm:"That mobile number doesn't look right.",
+    errPlayer:"Please pick a player for question 1.",
+    errScore:"Please enter a point total for question 2 (0 to 70).",
+    errPhone:"This mobile number has already been used. One entry per person.",
+    errNet:"Oops, that didn't work. Check your internet and try again."
+  }
+};
+var lang="nl";
+function t(k){ var L=I18N[lang]||I18N.nl; return (L[k]!=null?L[k]:I18N.nl[k])||k }
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.title=t("title");
+  var meta=document.querySelector('meta[name="description"]');
+  if(meta)meta.setAttribute("content",t("desc"));
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"),function(el){el.innerHTML=t(el.getAttribute("data-i18n"))});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-placeholder]"),function(el){el.setAttribute("placeholder",t(el.getAttribute("data-i18n-placeholder")))});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-aria]"),function(el){el.setAttribute("aria-label",t(el.getAttribute("data-i18n-aria")))});
+  $("lang-nl").classList.toggle("on",lang==="nl");
+  $("lang-en").classList.toggle("on",lang==="en");
+  if(lastVote){
+    $("dsum").innerHTML=sum(lastVote);
+    $("dn").textContent=lastVote.name?t("onName").replace("{name}",lastVote.name):"";
+    if(!$("ov").classList.contains("hide"))$("osum").innerHTML=sum({nr:pick,score:VipGok.validScore($("score").value)});
+  }
+}
+try{lang=localStorage.getItem(LANG_KEY)||"nl"}catch(e){}
+if(lang!=="en")lang="nl";
+$("lang-nl").onclick=function(){lang="nl";try{localStorage.setItem(LANG_KEY,lang)}catch(e){}applyLang()};
+$("lang-en").onclick=function(){lang="en";try{localStorage.setItem(LANG_KEY,lang)}catch(e){}applyLang()};
+applyLang();
+
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function show(id){["s-load","s-vote","s-done","s-closed","s-err"].forEach(function(s){$(s).classList.toggle("hide",s!==id)});window.scrollTo(0,0)}
 function sum(v){var p=VipGok.player(v.nr);if(!p)return "";
-  return '<div class="sum"><img src="assets/spelers/'+p.img+'.webp" alt=""><div style="flex:1"><div class="l">Eerste driepunter</div><div class="v">#'+p.nr+" "+esc(p.name)+'</div></div><div style="text-align:center"><div class="l">Na Q1</div><div class="s">'+v.score+'</div></div></div>'}
-function done(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}
-  $("dsum").innerHTML=sum(v);$("dn").textContent=v.name?("Op naam van "+v.name):"";show("s-done")}
-// spelersraster
+  return '<div class="sum"><img src="assets/spelers/'+p.img+'.webp" alt=""><div style="flex:1"><div class="l">'+t("lblThree")+'</div><div class="v">#'+p.nr+" "+esc(p.name)+'</div></div><div style="text-align:center"><div class="l">'+t("lblQ1")+'</div><div class="s">'+v.score+'</div></div></div>'}
+function done(v){lastVote=v;try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}
+  $("dsum").innerHTML=sum(v);$("dn").textContent=v.name?t("onName").replace("{name}",v.name):"";show("s-done")}
 $("grid").innerHTML=VipGok.PLAYERS.map(function(p){return '<button type="button" class="pl" data-nr="'+p.nr+'" aria-pressed="false"><span class="nr">#'+p.nr+'</span><img src="assets/spelers/'+p.img+'.webp" alt="" loading="lazy" width="300" height="300"><span class="nm">'+esc(p.name)+'</span></button>'}).join("");
 Array.prototype.forEach.call(document.querySelectorAll(".pl"),function(b){b.onclick=function(){pick=b.getAttribute("data-nr");
   Array.prototype.forEach.call(document.querySelectorAll(".pl"),function(x){var on=x===b;x.classList.toggle("sel",on);x.setAttribute("aria-pressed",on)});$("ferr").textContent=""}});
@@ -158,23 +277,24 @@ ready.catch(function(e){console.error(e);if(!saved)show("s-err")});
 ready.then(function(){db.ref(VipGok.P+"/config/open").on("value",function(o){if(o.val()===false&&!$("s-vote").classList.contains("hide")){$("ov").classList.add("hide");show("s-closed")}},function(){})});
 
 function check(){var n=$("name").value.trim(),p=VipGok.normPhone($("gsm").value),e=$("ferr");e.textContent="";
-  if(n.length<2||!/\s/.test(n)){e.textContent="Vul je voornaam én naam in.";$("name").focus();return false}
-  if(!p){e.textContent="Dat GSM-nummer lijkt niet te kloppen.";$("gsm").focus();return false}
-  if(!pick){e.textContent="Kies bij vraag 1 een speler.";$("grid").scrollIntoView({behavior:"smooth",block:"center"});return false}
-  if(VipGok.validScore($("score").value)===null){e.textContent="Vul bij vraag 2 een aantal punten in (0 tot 70).";$("score").focus();return false}
+  if(n.length<2||!/\s/.test(n)){e.textContent=t("errName");$("name").focus();return false}
+  if(!p){e.textContent=t("errGsm");$("gsm").focus();return false}
+  if(!pick){e.textContent=t("errPlayer");$("grid").scrollIntoView({behavior:"smooth",block:"center"});return false}
+  if(VipGok.validScore($("score").value)===null){e.textContent=t("errScore");$("score").focus();return false}
   return true}
 $("go").onclick=function(){if(!check())return;if(document.activeElement)document.activeElement.blur();
-  $("osum").innerHTML=sum({nr:pick,score:VipGok.validScore($("score").value)});$("ov").classList.remove("hide")};
+  lastVote={nr:pick,score:VipGok.validScore($("score").value),name:$("name").value.trim()};
+  $("osum").innerHTML=sum(lastVote);$("ov").classList.remove("hide")};
 $("back").onclick=function(){$("ov").classList.add("hide")};
 $("f").onsubmit=function(e){e.preventDefault()};
-$("ok").onclick=function(){var b=$("ok");b.disabled=true;b.textContent="Even geduld…";
+$("ok").onclick=function(){var b=$("ok");b.disabled=true;b.textContent=t("wait");
   ready.then(function(){return VipGok.vote(db,uid,$("name").value,$("gsm").value,pick,$("score").value,firebase.database.ServerValue.TIMESTAMP)})
   .then(function(r){$("ov").classList.add("hide");
     if(r.status==="ok"||(r.status==="already"&&r.vote.nr))done(r.vote);
     else if(r.status==="closed")show("s-closed");
-    else $("ferr").textContent="Met dit GSM-nummer werd al een gok gewaagd. Eén gok per persoon.";})
-  .catch(function(e){console.error(e);$("ov").classList.add("hide");$("ferr").textContent="Oei, dat lukte niet. Controleer je internet en probeer opnieuw."})
-  .then(function(){b.disabled=false;b.textContent="Ja, bevestig"})};
+    else $("ferr").textContent=t("errPhone");})
+  .catch(function(e){console.error(e);$("ov").classList.add("hide");$("ferr").textContent=t("errNet")})
+  .then(function(){b.disabled=false;b.textContent=t("confirmYes")})};
 })();
 </script>
 </body>

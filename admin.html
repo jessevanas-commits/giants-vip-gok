@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Giants VIP Admin</title>
+<title>VIP Kanspel Admin</title>
 <meta name="theme-color" content="#111111">
 <link rel="manifest" href="admin.webmanifest">
 <link rel="icon" href="assets/admin-icon-192.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="VIP Admin">
+<meta name="apple-mobile-web-app-title" content="VIP Kanspel">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <style>
 :root{--red:#D71920;--red2:#a80f15;--ink:#111;--bg:#f3f3f3;--mut:#555}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:18px;padding-bottom:env(safe-area-inset-bottom)}
-header{background:#111;color:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:6px solid var(--red)}
+header{background:#111;color:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:6px solid var(--red);position:relative}
 header img{height:52px}
-header h1{font-size:21px;margin:0;font-weight:900;line-height:1.15}
+header h1{font-size:21px;margin:0;font-weight:900;line-height:1.15;padding-right:88px}
+.lang{position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;display:flex;border:2px solid #fff;border-radius:999px;overflow:hidden;background:#000}
+.lang button{background:transparent;color:#fff;border:0;font-weight:800;font-size:13px;padding:5px 10px;cursor:pointer;font-family:inherit}
+.lang button.on{background:var(--red)}
 main{max-width:1000px;margin:0 auto;padding:12px}
 .card{background:#fff;border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,.08);padding:16px;margin-bottom:12px}
 h2{font-size:21px;margin:0 0 10px}
@@ -47,50 +50,144 @@ input.w{width:100%;text-align:left;font-weight:400}
 table{width:100%;border-collapse:collapse;font-size:16px}td,th{text-align:left;padding:6px;border-bottom:1px solid #eee}
 .hide{display:none!important}
 #err{color:var(--red);font-weight:800;margin:6px 12px}
+.prize{background:#111;color:#fff;border-radius:12px;padding:10px 14px;margin-bottom:12px;border-left:6px solid var(--red);font-weight:700;font-size:16px;line-height:1.35}
 </style>
 </head>
 <body>
-<header><img src="assets/logo-wga.png" alt=""><h1>Giants VIP Admin<br><span style="font-weight:600;font-size:16px">Eerste driepunter &amp; score na Q1 · 17/11</span></h1></header>
+<header>
+  <img src="assets/logo-wga.png" alt="">
+  <h1>VIP Kanspel Admin<br><span style="font-weight:600;font-size:16px" data-i18n="sub"></span></h1>
+  <div class="lang" role="group" aria-label="Taal / Language">
+    <button type="button" id="lang-nl" data-set-lang="nl">NL</button>
+    <button type="button" id="lang-en" data-set-lang="en">EN</button>
+  </div>
+</header>
 <p id="err"></p>
 <main>
 <section id="login" class="card hide">
-  <p><b>Code nodig.</b> Vul de beheercode in.</p>
-  <input id="key" class="w" type="password" autocomplete="off" placeholder="code" inputmode="numeric"><br><br>
-  <button class="red" id="keyBtn">Inloggen</button>
+  <p data-i18n="loginTxt"></p>
+  <input id="key" class="w" type="password" autocomplete="off" data-i18n-placeholder="codePh" inputmode="numeric"><br><br>
+  <button class="red" id="keyBtn" data-i18n="loginBtn"></button>
 </section>
 <div id="app" class="hide">
+  <p class="prize" data-i18n="prize"></p>
   <section class="card">
-    <div class="row" style="justify-content:space-between"><div>Stemming: <span id="st" class="state"></span></div>
-      <div class="row"><button id="closeBtn" class="red">Stemming sluiten</button><button id="openBtn" class="green">Stemming (her)openen</button></div></div>
-    <div class="stats" style="margin-top:12px"><div><div class="big" id="nt">0</div><span>gokken</span></div><div><div class="big" id="avg">–</div><span>gemiddelde gok Q1</span></div></div>
-    <p class="muted" style="margin:8px 0 0">Live bijgewerkt <span id="upd"></span></p>
+    <div class="row" style="justify-content:space-between"><div data-i18n="votingLbl"></div>
+      <div class="row"><button id="closeBtn" class="red" data-i18n="closeBtn"></button><button id="openBtn" class="green" data-i18n="openBtn"></button></div></div>
+    <div class="stats" style="margin-top:12px"><div><div class="big" id="nt">0</div><span data-i18n="statEntries"></span></div><div><div class="big" id="avg">–</div><span data-i18n="statAvg"></span></div></div>
+    <p class="muted" style="margin:8px 0 0"><span data-i18n="live"></span> <span id="upd"></span></p>
   </section>
   <section class="card">
-    <h2>1. Wie scoorde de eerste driepunter?</h2>
-    <p class="muted" style="margin-top:0">Tik op de speler om de uitslag vast te leggen. Het rode getal = aantal gokken op die speler.</p>
+    <h2 data-i18n="hQ1"></h2>
+    <p class="muted" style="margin-top:0" data-i18n="q1Hint"></p>
     <div id="grid" class="grid"></div>
-    <div class="row" style="margin-top:10px"><button id="clrScorer">Uitslag vraag 1 wissen</button></div>
+    <div class="row" style="margin-top:10px"><button id="clrScorer" data-i18n="clrQ1"></button></div>
     <div id="w1" class="win hide"></div>
   </section>
   <section class="card">
-    <h2>2. Punten Giants na het eerste kwart</h2>
-    <div class="row"><input id="q1" type="text" inputmode="numeric" maxlength="2" placeholder="?"><button id="saveQ1" class="dark">Score vastleggen</button><button id="clrQ1">Wissen</button></div>
+    <h2 data-i18n="hQ2"></h2>
+    <div class="row"><input id="q1" type="text" inputmode="numeric" maxlength="2" placeholder="?"><button id="saveQ1" class="dark" data-i18n="saveQ2"></button><button id="clrQ1" data-i18n="clear"></button></div>
     <div id="w2" class="win hide"></div>
   </section>
   <section class="card">
-    <details><summary><b>Alle gokken bekijken</b></summary><table><thead><tr><th>Tijd</th><th>Naam</th><th>GSM</th><th>Driepunter</th><th>Q1</th></tr></thead><tbody id="list"></tbody></table></details>
-    <br><div class="row"><button id="csvBtn">Lijst downloaden (CSV)</button><button id="wipeBtn">Alle gokken wissen (reset)</button></div>
+    <details><summary><b data-i18n="allEntries"></b></summary><table><thead><tr><th data-i18n="thTime"></th><th data-i18n="thName"></th><th data-i18n="thGsm"></th><th data-i18n="thThree"></th><th>Q1</th></tr></thead><tbody id="list"></tbody></table></details>
+    <br><div class="row"><button id="csvBtn" data-i18n="csvBtn"></button><button id="wipeBtn" data-i18n="wipeBtn"></button></div>
   </section>
 </div>
 </main>
-<script src="vip.js?v=2"></script>
+<script src="vip.js?v=3"></script>
 <script>
 (function(){
 var API_KEY="AIzaSyAoVJMKiuVDSqqyMW4vE6dbbcZ5SW5IUSE", ADMINS=["7RtLUCunESf9F8Kwj4Fs3XvVKXg2","0m5l7HFk67WrnLM0CvItYVTBRrm2"];
-var EMU=/[?&]emu=1/.test(location.search), P=VipGok.P, LS="vipgok1711_admin_k";
+var EMU=/[?&]emu=1/.test(location.search), P=VipGok.P, LS="vipgok1711_admin_k", LANG_KEY="vipkanspel_lang";
 var DB=EMU?"http://127.0.0.1:9000":"https://giants-veiling-default-rtdb.europe-west1.firebasedatabase.app", NS=EMU?"ns=giants-veiling-default-rtdb&":"";
 var $=function(i){return document.getElementById(i)}, tok=null, tokExp=0, data={};
 var ENC={"s": "dkIiyhveA/i0Gei7f2PQBw==", "i": "nA1bISsbikFdKy0E", "c": "yBfpci79TTlIkNayNrnA96u3wUP+WNu2PxQ/0xQu1lr5AQrNg1PAeLbpD/rB8Z/NXiEQEOC6cgwmBC6MFyEspDqCvG2IBhoqvoS1cvFogCiBqmojCk+2dIkX8CHA95tex4+K+cEBca/Nrdlr2C3BwCj/s5lUE0tD53uT3CVWTv/fW0YVclTJuguflZ/UHLznwSK5YVfMNFAJY+AIPQUvFyA61opAsv3TL8RN46/2ngItlfty2FIZ9Ff7OrYoB1+71sRWAdm4PNPXHoLSeOOBhXO3KbfThR/N/V0AJA=="};
+var I18N={
+  nl:{
+    sub:"Eerste driepunter & score na Q1 · 17/11",
+    loginTxt:"<b>Code nodig.</b> Vul de beheercode in.",
+    codePh:"code", loginBtn:"Inloggen",
+    prize:"🍾 De winnaar ontvangt een fles champagne, uitgereikt tijdens de VIP-talk na de wedstrijd.",
+    votingLbl:'Stemming: <span id="st" class="state"></span>',
+    closeBtn:"Stemming sluiten", openBtn:"Stemming (her)openen",
+    statEntries:"inzendingen", statAvg:"gemiddelde kans Q1", live:"Live bijgewerkt",
+    hQ1:"1. Wie scoorde de eerste driepunter?",
+    q1Hint:"Tik op de speler om de uitslag vast te leggen. Het rode getal = aantal kansen op die speler.",
+    clrQ1:"Uitslag vraag 1 wissen",
+    hQ2:"2. Punten Giants na het eerste kwart",
+    saveQ2:"Score vastleggen", clear:"Wissen",
+    allEntries:"Alle inzendingen bekijken",
+    thTime:"Tijd", thName:"Naam", thGsm:"GSM", thThree:"Driepunter",
+    csvBtn:"Lijst downloaden (CSV)", wipeBtn:"Alle inzendingen wissen (reset)",
+    open:"OPEN", closed:"GESLOTEN",
+    winQ1:"🏆 Eerste driepunter: {player} · {n} juiste {word}",
+    word1:"kans", wordN:"kansen",
+    nobody:"Niemand zat juist.",
+    winQ2:"🏆 Score na Q1: {score} · dichtste kans{plural}{exact}",
+    exact:" (exact!)", diff:" (verschil {n})",
+    noEntries:"Nog geen inzendingen.",
+    guess:"kans",
+    confirmQ1:"Uitslag vraag 1: {player} scoorde de eerste driepunter?",
+    needScore:"Vul een getal in (0 tot 70).",
+    wipePrompt:"Alle inzendingen, namen, GSM-nummers en uitslagen definitief wissen? Typ WISSEN",
+    wipeWord:"WISSEN",
+    badCode:"Verkeerde code.",
+    retype:"Typ de code opnieuw.",
+    loadErr:"Fout bij laden: {msg}",
+    actErr:"Dat lukte niet: {msg}",
+    csvTime:"tijd (Brussel)", csvName:"naam", csvGsm:"gsm", csvThree:"eerste driepunter", csvQ1:"punten na Q1"
+  },
+  en:{
+    sub:"First three-pointer & score after Q1 · 17/11",
+    loginTxt:"<b>Code required.</b> Enter the admin code.",
+    codePh:"code", loginBtn:"Log in",
+    prize:"🍾 The winner receives a bottle of champagne, presented during the VIP talk after the game.",
+    votingLbl:'Voting: <span id="st" class="state"></span>',
+    closeBtn:"Close voting", openBtn:"(Re)open voting",
+    statEntries:"entries", statAvg:"average Q1 entry", live:"Live updated",
+    hQ1:"1. Who scored the first three-pointer?",
+    q1Hint:"Tap the player to lock in the result. The red number = entries for that player.",
+    clrQ1:"Clear question 1 result",
+    hQ2:"2. Giants points after the first quarter",
+    saveQ2:"Save score", clear:"Clear",
+    allEntries:"View all entries",
+    thTime:"Time", thName:"Name", thGsm:"Mobile", thThree:"Three-pointer",
+    csvBtn:"Download list (CSV)", wipeBtn:"Clear all entries (reset)",
+    open:"OPEN", closed:"CLOSED",
+    winQ1:"🏆 First three-pointer: {player} · {n} correct {word}",
+    word1:"entry", wordN:"entries",
+    nobody:"Nobody got it right.",
+    winQ2:"🏆 Score after Q1: {score} · closest entr{plural}{exact}",
+    exact:" (exact!)", diff:" (off by {n})",
+    noEntries:"No entries yet.",
+    guess:"entry",
+    confirmQ1:"Question 1 result: {player} scored the first three-pointer?",
+    needScore:"Enter a number (0 to 70).",
+    wipePrompt:"Permanently delete all entries, names, mobile numbers and results? Type DELETE",
+    wipeWord:"DELETE",
+    badCode:"Wrong code.",
+    retype:"Enter the code again.",
+    loadErr:"Error loading: {msg}",
+    actErr:"That didn't work: {msg}",
+    csvTime:"time (Brussels)", csvName:"name", csvGsm:"mobile", csvThree:"first three-pointer", csvQ1:"points after Q1"
+  }
+};
+var lang="nl";
+function t(k){ var L=I18N[lang]||I18N.nl; return (L[k]!=null?L[k]:I18N.nl[k])||k }
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.title=lang==="en"?"VIP Kanspel Admin":"VIP Kanspel Admin";
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"),function(el){el.innerHTML=t(el.getAttribute("data-i18n"))});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-placeholder]"),function(el){el.setAttribute("placeholder",t(el.getAttribute("data-i18n-placeholder")))});
+  $("lang-nl").classList.toggle("on",lang==="nl");
+  $("lang-en").classList.toggle("on",lang==="en");
+  if(!$("app").classList.contains("hide"))render();
+}
+try{lang=localStorage.getItem(LANG_KEY)||"nl"}catch(e){}
+if(lang!=="en")lang="nl";
+$("lang-nl").onclick=function(){lang="nl";try{localStorage.setItem(LANG_KEY,lang)}catch(e){}applyLang()};
+$("lang-en").onclick=function(){lang="en";try{localStorage.setItem(LANG_KEY,lang)}catch(e){}applyLang()};
 function b64(x){return Uint8Array.from(atob(x),function(c){return c.charCodeAt(0)})}
 function unlock(code){var S=crypto.subtle;return S.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]).then(function(k){return S.deriveKey({name:"PBKDF2",salt:b64(ENC.s),iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["decrypt"])}).then(function(k){return S.decrypt({name:"AES-GCM",iv:b64(ENC.i)},k,b64(ENC.c))}).then(function(b){return new TextDecoder().decode(b)})}
 var m=location.hash.match(/k=([^&]+)/);
@@ -108,42 +205,46 @@ function rest(method,path,body){return idToken().then(function(t){return fetch(D
   .then(function(r){return r.text().then(function(t){if(!r.ok)throw new Error(method+" "+path+": "+r.status+" "+t.slice(0,100));return JSON.parse(t)})})}
 function votes(){return Object.keys(data.votes||{}).map(function(u){var v=data.votes[u],d=VipGok.decode(v.n);return d?{uid:u,name:d.name,nr:d.nr,score:d.score,p:v.p,t:v.t}:null}).filter(Boolean).sort(function(a,b){return a.t-b.t})}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function tm(t){return new Date(t).toLocaleTimeString("nl-BE",{timeZone:"Europe/Brussels",hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function tm(t){return new Date(t).toLocaleTimeString(lang==="en"?"en-GB":"nl-BE",{timeZone:"Europe/Brussels",hour:"2-digit",minute:"2-digit",second:"2-digit"})}
 function pn(nr){var p=VipGok.player(nr);return p?("#"+p.nr+" "+p.name):nr}
-function people(l){return l.map(function(v){return '<div class="p">'+esc(v.name)+' <small>· '+esc(VipGok.fmtPhone(v.p))+(v.score!=null?' · gok '+v.score:'')+'</small></div>'}).join("")}
+function people(l){return l.map(function(v){return '<div class="p">'+esc(v.name)+' <small>· '+esc(VipGok.fmtPhone(v.p))+(v.score!=null?' · '+t("guess")+' '+v.score:'')+'</small></div>'}).join("")}
 $("grid").innerHTML=VipGok.PLAYERS.map(function(p){return '<div class="pl" data-nr="'+p.nr+'"><span class="nr">#'+p.nr+'</span><span class="c" id="c'+p.nr+'">0</span><img src="assets/spelers/'+p.img+'.webp" alt=""><div>'+esc(p.name)+'</div></div>'}).join("");
 function render(){
   var vs=votes(),cfg=data.config||{},open=cfg.open!==false;
-  $("nt").textContent=vs.length;$("avg").textContent=vs.length?(vs.reduce(function(a,v){return a+v.score},0)/vs.length).toFixed(1).replace(".",","):"–";
+  $("nt").textContent=vs.length;$("avg").textContent=vs.length?(vs.reduce(function(a,v){return a+v.score},0)/vs.length).toFixed(1).replace(lang==="en"?".":"x", lang==="en"?".":","): "–";
+  // keep comma for NL: toFixed gives dot; for NL replace
+  if(vs.length && lang==="nl")$("avg").textContent=(vs.reduce(function(a,v){return a+v.score},0)/vs.length).toFixed(1).replace(".",",");
   $("upd").textContent=tm(Date.now());
-  $("st").textContent=open?"OPEN":"GESLOTEN";$("st").className="state "+(open?"open":"closed");
+  if($("st")){$("st").textContent=open?t("open"):t("closed");$("st").className="state "+(open?"open":"closed")}
   $("closeBtn").disabled=!open;$("openBtn").disabled=open;
   VipGok.PLAYERS.forEach(function(p){$("c"+p.nr).textContent=vs.filter(function(v){return v.nr===p.nr}).length;
     document.querySelector('.pl[data-nr="'+p.nr+'"]').classList.toggle("sel",String(cfg.scorer)===p.nr)});
   if(document.activeElement!==$("q1"))$("q1").value=cfg.q1!=null?cfg.q1:"";
   var w=VipGok.winners(vs,cfg.scorer,cfg.q1);
-  if(cfg.scorer!=null){$("w1").classList.remove("hide");$("w1").innerHTML="<h3>🏆 Eerste driepunter: "+esc(pn(cfg.scorer))+" · "+w.q1.length+" juiste "+(w.q1.length===1?"gok":"gokken")+"</h3>"+(w.q1.length?people(w.q1):'<div class="p"><small>Niemand gokte juist.</small></div>')}else $("w1").classList.add("hide");
-  if(cfg.q1!=null){$("w2").classList.remove("hide");$("w2").innerHTML="<h3>🏆 Score na Q1: "+cfg.q1+" · dichtste gok"+(w.q2.length>1?"ken":"")+(w.diff===0?" (exact!)":w.diff!=null?" (verschil "+w.diff+")":"")+"</h3>"+(w.q2.length?people(w.q2):'<div class="p"><small>Nog geen gokken.</small></div>')}else $("w2").classList.add("hide");
+  if(cfg.scorer!=null){$("w1").classList.remove("hide");$("w1").innerHTML="<h3>"+t("winQ1").replace("{player}",esc(pn(cfg.scorer))).replace("{n}",w.q1.length).replace("{word}",w.q1.length===1?t("word1"):t("wordN"))+"</h3>"+(w.q1.length?people(w.q1):'<div class="p"><small>'+t("nobody")+'</small></div>')}else $("w1").classList.add("hide");
+  if(cfg.q1!=null){var plural=w.q2.length>1?(lang==="en"?"ies":"en"):(lang==="en"?"y":"");var ex=w.diff===0?t("exact"):w.diff!=null?t("diff").replace("{n}",w.diff):"";
+    $("w2").classList.remove("hide");$("w2").innerHTML="<h3>"+t("winQ2").replace("{score}",cfg.q1).replace("{plural}",plural).replace("{exact}",ex)+"</h3>"+(w.q2.length?people(w.q2):'<div class="p"><small>'+t("noEntries")+'</small></div>')}else $("w2").classList.add("hide");
   $("list").innerHTML=vs.map(function(v){return "<tr><td>"+tm(v.t)+"</td><td>"+esc(v.name)+"</td><td>"+esc(VipGok.fmtPhone(v.p))+"</td><td>"+esc(pn(v.nr))+"</td><td>"+v.score+"</td></tr>"}).join("");
 }
-function refresh(){return rest("GET",P).then(function(d){data=d||{};$("err").textContent="";render()},function(e){$("err").textContent="Fout bij laden: "+e.message})}
-function act(p){return p.then(refresh,function(e){alert("Dat lukte niet: "+e.message)})}
+function refresh(){return rest("GET",P).then(function(d){data=d||{};$("err").textContent="";render()},function(e){$("err").textContent=t("loadErr").replace("{msg}",e.message)})}
+function act(p){return p.then(refresh,function(e){alert(t("actErr").replace("{msg}",e.message))})}
 $("closeBtn").onclick=function(){act(rest("PATCH",P+"/config",{open:false}))};
 $("openBtn").onclick=function(){act(rest("PATCH",P+"/config",{open:true}))};
 Array.prototype.forEach.call(document.querySelectorAll(".pl"),function(el){el.onclick=function(){var nr=el.getAttribute("data-nr");
-  if(confirm("Uitslag vraag 1: "+pn(nr)+" scoorde de eerste driepunter?"))act(rest("PATCH",P+"/config",{scorer:nr}))}});
+  if(confirm(t("confirmQ1").replace("{player}",pn(nr))))act(rest("PATCH",P+"/config",{scorer:nr}))}});
 $("clrScorer").onclick=function(){act(rest("DELETE",P+"/config/scorer"))};
-$("saveQ1").onclick=function(){var v=VipGok.validScore($("q1").value);if(v===null)return alert("Vul een getal in (0 tot 70).");$("q1").blur();act(rest("PATCH",P+"/config",{q1:v}))};
+$("saveQ1").onclick=function(){var v=VipGok.validScore($("q1").value);if(v===null)return alert(t("needScore"));$("q1").blur();act(rest("PATCH",P+"/config",{q1:v}))};
 $("clrQ1").onclick=function(){$("q1").value="";act(rest("DELETE",P+"/config/q1"))};
-$("csvBtn").onclick=function(){var rows=[["tijd (Brussel)","naam","gsm","eerste driepunter","punten na Q1"]].concat(votes().map(function(v){return [new Date(v.t).toLocaleString("nl-BE",{timeZone:"Europe/Brussels"}),v.name,VipGok.fmtPhone(v.p),pn(v.nr),v.score]}));
+$("csvBtn").onclick=function(){var rows=[[t("csvTime"),t("csvName"),t("csvGsm"),t("csvThree"),t("csvQ1")]].concat(votes().map(function(v){return [new Date(v.t).toLocaleString("nl-BE",{timeZone:"Europe/Brussels"}),v.name,VipGok.fmtPhone(v.p),pn(v.nr),v.score]}));
   var csv="\ufeff"+rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(";")}).join("\n");
-  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="vip-gok-17-11.csv";a.click()};
-$("wipeBtn").onclick=function(){if(prompt("Alle gokken, namen, GSM-nummers en uitslagen definitief wissen? Typ WISSEN")==="WISSEN")act(rest("PUT",P,{config:{open:true}}))};
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="vip-kanspel-17-11.csv";a.click()};
+$("wipeBtn").onclick=function(){if(prompt(t("wipePrompt"))===t("wipeWord"))act(rest("PUT",P,{config:{open:true}}))};
 function tryKey(){var v=$("key").value.trim();$("err").textContent="";
-  unlock(v).then(function(k){try{localStorage.setItem(LS,k)}catch(e){}tok=null;start()},function(){$("err").textContent="Verkeerde code.";$("key").value="";$("key").focus()})}
+  unlock(v).then(function(k){try{localStorage.setItem(LS,k)}catch(e){}tok=null;start()},function(){$("err").textContent=t("badCode");$("key").value="";$("key").focus()})}
 $("keyBtn").onclick=tryKey;$("key").onkeydown=function(e){if(e.key==="Enter")tryKey()};
-function start(){idToken().then(function(){$("login").classList.add("hide");$("app").classList.remove("hide");refresh();if(!window._iv)window._iv=setInterval(refresh,2500)},
-  function(e){try{localStorage.removeItem(LS)}catch(x){}tok=null;$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":"Typ de code opnieuw.";$("key").value="";$("key").focus()})}
+function start(){idToken().then(function(){$("login").classList.add("hide");$("app").classList.remove("hide");applyLang();refresh();if(!window._iv)window._iv=setInterval(refresh,2500)},
+  function(e){try{localStorage.removeItem(LS)}catch(x){}tok=null;$("login").classList.remove("hide");$("err").textContent=e.message==="nokey"?"":t("retype");$("key").value="";$("key").focus()})}
+applyLang();
 (function(){var k=key();if(k&&k.length<40){try{localStorage.removeItem(LS)}catch(x){}unlock(k).then(function(r){try{localStorage.setItem(LS,r)}catch(e){}start()},function(){start()})}else start()})();
 })();
 </script>

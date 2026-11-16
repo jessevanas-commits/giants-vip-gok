@@ -1,7 +1,7 @@
 {
-  "name": "Giants VIP Admin",
-  "short_name": "VIP Admin",
-  "description": "Beheer VIP-gok Windrose Giants Antwerp",
+  "name": "VIP Kanspel Admin",
+  "short_name": "VIP Kanspel",
+  "description": "Beheer VIP Kanspel Windrose Giants Antwerp",
   "id": "./admin.html",
   "start_url": "./admin.html",
   "scope": "./",
